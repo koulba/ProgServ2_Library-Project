@@ -125,8 +125,6 @@ Deux rôles d’utilisateur seront prévus :
 
 ## 8. Répartition du travail
 
-## Répartition des responsabilités
-
 | Phase | Liliana | Thierry | Contributions communes |
 |-------|---------|----------|-------------------------|
 | **1. Conception / planification** | - Brainstorming sur les fonctionnalités<br>- Élaboration du cahier des charges | - Organisation du projet dans GitHub<br>- Planification des tables et relations de la base | - Validation des choix ensemble<br>- Décision des rôles et responsabilités |
