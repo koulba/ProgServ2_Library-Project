@@ -140,7 +140,7 @@ Deux rôles d’utilisateur seront prévus :
 ## 9. Conclusion
 Libs Project est une application web qui aide à gérer sa bibliothèque personnelle. 
 
-Elle propose une interface simple et une base solide : authentification, gestion des rôles, sécurité, sessions et base de données. Le but est de créer un site fonctionnel et facile à utiliser, tout en mettant en pratique ce qu’on a appris en cours. Ce projet permet de voir concrètement comment fonctionne une application web complète, depuis le développement jusqu’au déploiement.
+Elle propose une interface simple : authentification, gestion des rôles, sécurité, sessions et base de données. Le but est de créer un site fonctionnel et facile à utiliser, tout en mettant en pratique ce qu’on a appris en cours. Ce projet permet de voir concrètement comment fonctionne une application web complète, depuis le développement jusqu’au déploiement.
 </details>
 
 ## 
