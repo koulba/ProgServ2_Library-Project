@@ -127,11 +127,17 @@ Deux rôles d’utilisateur seront prévus :
 
 ## Répartition des responsabilités
 
-| Membre   | Responsabilités principales                                                                                  |
-|----------|--------------------------------------------------------------------------------------------------------------|
-| Liliana  | Design et intégration HTML/CSS, pages publiques, gestion multilingue, structure front-end                    |
-| Thierry  | Base de données, authentification, sessions, gestion des rôles, pages privées                                |
-| Tous deux | Conception du modèle de données, tests, documentation et déploiement                                        |
+| Phase | Liliana | Thierry | Contributions communes |
+|-------|---------|----------|-------------------------|
+| **1. Conception / planification** | - Brainstorming sur les fonctionnalités<br>- Élaboration du cahier des charges | - Organisation du projet dans GitHub<br>- Planification des tables et relations de la base | - Validation des choix ensemble<br>- Décision des rôles et responsabilités |
+| **2. Base de données** | - Participation à la définition des champs et relations | - Création de la base MySQL et des tables<br>- Préparation de scripts d’insertion de données de test | - Vérification de l’intégrité des données<br>- Tests de cohérence |
+| **3. Pages HTML / Formulaires** | - Création des pages publiques simples : accueil, inscription, connexion<br>- Formulaires d’ajout de livre | - Création des pages privées simples : tableau de bord, liste des livres, détails livre, administration | - Validation que toutes les pages sont fonctionnelles<br>- Vérification des liens entre pages |
+| **4. PHP / Back-end** | - Participation à la création des classes PHP (Utilisateur, Livre, Lecture)<br>- Gestion de la logique métier pour ajouter/modifier/supprimer des livres | - Gestion de l’authentification et des sessions<br>- Gestion des rôles et permissions<br>- Fonctionnalités administrateur | - Test des interactions entre front-end et back-end<br>- Vérification que toutes les fonctionnalités demandées fonctionnent |
+| **5. Sécurité** | - Validation côté serveur des formulaires<br>- Vérification des entrées utilisateurs | - Implémentation de PDO et requêtes préparées<br>- Hash des mots de passe<br>- Gestion sécurisée des sessions | - Tests globaux de sécurité<br>- Contrôle des droits d’accès |
+| **6. Tests et débogage** | - Tests des pages publiques et privées | - Tests des fonctionnalités critiques (authentification, rôle) | - Correction des bugs ensemble<br>- Vérification que tout est fonctionnel selon le cahier des charges |
+| **7. Déploiement** | - Préparation des fichiers pour le serveur | - Upload sur serveur public et configuration de la base | - Vérification finale que le site fonctionne en ligne |
+| **8. Documentation / Rapport final** | - Rédaction du cahier des charges final | - Rédaction de la partie technique (structure base, code, architecture) | - Relecture et validation finale<br>- Préparation du mail de soumission |
+
 
 ## 9. Conclusion
 Libs Project est une application web qui aide à gérer sa bibliothèque personnelle. 
