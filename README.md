@@ -21,7 +21,6 @@ Project done at HEIG-VD - ProgServ 2
 ## 1. Objectif du projet
 Le projet **Libs Project** a pour but de créer une application web simple et pratique qui permet à chacun de gérer sa propre bibliothèque en ligne. 
 L’idée est d’offrir un espace personnel où l’utilisateur peut ajouter ses livres, suivre ses lectures, laisser des notes ou des commentaires, et organiser sa collection selon ses envies.
-L’application sera intuitive, accessible depuis Internet, et développée avec PHP et MySQL.
 
 L’application sera intuitive, accessible depuis Internet, et développée avec PHP et MySQL.
 
