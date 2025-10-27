@@ -1,6 +1,6 @@
 <?php
 
-require './database.php';
+require_once 'config/database.php';
 
 //supprimer un livre
 function removeBook($id) {
@@ -16,7 +16,7 @@ function removeBook($id) {
 //ajouter un livre
 function addBook(
     $name,
-    $autor,
+    $author,
     $releasedate,
     $isbn,
     $editor,
@@ -27,7 +27,7 @@ function addBook(
     global $pdo;
     $sql = "INSERT INTO books (
         name,
-        autor,
+        author,
         releasedate,
         isbn,
         editor,
@@ -35,7 +35,7 @@ function addBook(
         note
     ) VALUES (
         :name,
-        :autor,
+        :author,
         :releasedate,
         :isbn,
         :editor,
@@ -46,7 +46,7 @@ function addBook(
     $stmt = $pdo->prepare($sql);
 
     $stmt->bindParam(':name', $name);
-    $stmt->bindParam(':autor', $autor);
+    $stmt->bindParam(':author', $author);
     $stmt->bindParam(':releasedate', $releasedate);
     $stmt->bindParam(':isbn', $isbn);
     $stmt->bindParam(':editor', $editor);

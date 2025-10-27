@@ -1,5 +1,14 @@
 <?php
-require 'functions.php';
+require_once '../src/functions.php';
+require_once '../src/config/database.php';
+
+// Connexion à la DB
+$db = new Database();
+$pdo = $db->getPdo();
+
+// Récupère tous les livres
+$stmt = $pdo->query("SELECT * FROM books ORDER BY id DESC");
+$books = $stmt->fetchAll();
 
 ?>
 
@@ -33,7 +42,7 @@ require 'functions.php';
             <?php foreach ($books as $book) { ?>
                 <tr>
                     <td><?= htmlspecialchars($book['name']) ?></td>
-                    <td><?= htmlspecialchars($book['autor']) ?></td>
+                    <td><?= htmlspecialchars($book['author']) ?></td>
                     <td><?= htmlspecialchars($book['releasedate']) ?></td>
                     <td><?= htmlspecialchars($book['editor']) ?></td>
                     <td><?= htmlspecialchars($book['note']) ?></td>
