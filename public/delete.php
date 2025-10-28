@@ -1,12 +1,13 @@
 <?php
-require_once './src/functions.php';
+require_once '../src/config/database.php';
+require_once '../src/functions.php';
 
 // On vérifie si l'ID du livre est passé dans l'URL
 if (isset($_GET["id"])) {
-    // On récupère l'ID du livre de la superglobale `$_GET`
+    // On récupère l'ID du livre
     $bookId = $_GET["id"];
 
-    // On supprime le livre correspondant à l'ID
+    // On supprime 
     removeBook($bookId);
 
     header("Location: index.php");
