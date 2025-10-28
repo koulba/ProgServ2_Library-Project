@@ -30,17 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $author = $releasedate = $isbn = $editor = $saga = $note = '';
 }
 }
+
+include '../src/partials/header.php';
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Ajouter un livre</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-    <link rel="stylesheet" href="css/custom.css">
-</head>
-<body>
 <main class="container">
     <h1>Ajouter un nouveau livre</h1>
     <p><a href="index.php">Retour à l'accueil</a></p>
@@ -78,5 +71,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="reset">Réinitialiser</button>
     </form>
 </main>
-</body>
-</html>
+
+<?php include '../src/partials/footer.php'; ?>

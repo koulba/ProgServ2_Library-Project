@@ -10,17 +10,12 @@ $pdo = $db->getPdo();
 $stmt = $pdo->query("SELECT * FROM books ORDER BY id DESC");
 $books = $stmt->fetchAll();
 
+
+include '../src/partials/header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <title>Libs Project</title>
-</head>
-
-<body>
-    <h1>Page d'accueil du gestionnaire de livres</h1>
+    <main>
+        <h1>Page d'accueil du gestionnaire de livres</h1>
     <p>Utilise cette page pour visualiser et gérer tous tes livres.</p>
 
     <h2>Liste des livres</h2>
@@ -54,6 +49,6 @@ $books = $stmt->fetchAll();
             <?php } ?>
         </tbody>
     </table>
-</body>
+    </main>
 
-</html>
+<?php include '../src/partials/footer.php'; ?>
