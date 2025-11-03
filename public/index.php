@@ -14,23 +14,23 @@ $books = $stmt->fetchAll();
 include '../src/partials/header.php';
 ?>
 
-    <main>
-        <h1>Page d'accueil du gestionnaire de livres</h1>
-    <p>Utilise cette page pour visualiser et gérer tous tes livres.</p>
+<main>
+    <h1><?= $translations['home_title'] ?></h1>
+    <p><?= $translations['home_description'] ?></p>
 
-    <h2>Liste des livres</h2>
+    <h2><?= $translations['books_list'] ?></h2>
 
-    <p><a href="create.php"><button>Ajouter un livre</button></a></p>
+    <p><a href="create.php"><button><?= $translations['add_book'] ?></button></a></p>
 
     <table>
         <thead>
             <tr>
-                <th>Titre</th>
-                <th>Auteur</th>
-                <th>Date de parution</th>
-                <th>Éditeur</th>
-                <th>Note</th>
-                <th>Actions</th>
+                <th><?= $translations['name'] ?></th>
+                <th><?= $translations['author'] ?></th>
+                <th><?= $translations['publication_date'] ?></th>
+                <th><?= $translations['editor'] ?></th>
+                <th><?= $translations['note'] ?></th>
+                <th><?= $translations['actions'] ?></th>
             </tr>
         </thead>
         <tbody>
@@ -42,13 +42,13 @@ include '../src/partials/header.php';
                     <td><?= htmlspecialchars($book['editor']) ?></td>
                     <td><?= htmlspecialchars($book['note']) ?></td>
                     <td>
-                        <a href="delete.php?id=<?= htmlspecialchars($book['id']) ?>"><button>Supprimer</button></a>
-                        <a href="edit.php?id=<?= htmlspecialchars($book['id']) ?>"><button>Éditer</button></a>
+                        <a href="delete.php?id=<?= htmlspecialchars($book['id']) ?>"><button><?= $translations['delete'] ?></button></a>
+                        <a href="edit.php?id=<?= htmlspecialchars($book['id']) ?>"><button><?= $translations['edit'] ?></button></a>
                     </td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
-    </main>
+</main>
 
 <?php include '../src/partials/footer.php'; ?>
