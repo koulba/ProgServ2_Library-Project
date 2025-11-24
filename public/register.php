@@ -3,7 +3,7 @@ require_once '../src/config/database.php';
 require_once '../src/functions.php';
 require_once __DIR__ . '/../src/i18n/load-translation.php';
 
-// Charger les traductions
+
 $lang = $_COOKIE['lang'] ?? 'fr';
 $translations = loadTranslation($lang);
 
@@ -11,19 +11,17 @@ $translations = loadTranslation($lang);
 $db = new Database();
 $pdo = $db->getPdo();
 
-// Initialiser les variables
+
 $username = $email = '';
 $errors = [];
 $success = '';
 
-// Soumission du formulaire
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST["username"] ?? '');
     $email = trim($_POST["email"] ?? '');
     $password = $_POST["password"] ?? '';
     $confirm_password = $_POST["confirm_password"] ?? '';
 
-    // Validation
     if (empty($username)) {
         $errors[] = $translations['username_required'];
     }
@@ -44,13 +42,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = $translations['passwords_not_match'];
     }
 
-    // Si pas d'erreurs, tenter l'inscription
+
     if (empty($errors)) {
         $result = registerUser($username, $email, $password);
 
         if ($result['success']) {
             $success = $translations['registration_success'];
-            // Réinitialiser les champs
+
             $username = $email = '';
         } else {
             $errors[] = $translations[$result['error']] ?? $translations['db_error'];
@@ -104,8 +102,6 @@ include '../src/partials/header.php';
         <a href="login.php"><?= $translations['login_here'] ?></a>
     </p>
     <?php endif; ?>
-
-    <p><a href="index.php"><?= $translations['back_home'] ?></a></p>
 </main>
 
 <?php include '../src/partials/footer.php'; ?>

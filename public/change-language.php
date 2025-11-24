@@ -1,14 +1,20 @@
 <?php
-// Récupère la langue demandée
 $lang = $_GET['lang'] ?? 'fr';
 
-// Vérifie que la langue est valide (fr ou en)
 if (in_array($lang, ['fr', 'en'])) {
-    // Définir un cookie qui expire dans 1 an (365 jours)
     setcookie('lang', $lang, time() + (365 * 24 * 60 * 60), '/');
 }
 
-// Redirige vers la page précédente ou l'accueil
-$redirect = $_SERVER['HTTP_REFERER'] ?? 'index.php';
+$allowedPages = ['index.php', 'login.php', 'register.php', 'create.php'];
+$redirect = 'login.php';
+
+if (isset($_SERVER['HTTP_REFERER'])) {
+    $referer = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH);
+    $page = basename($referer);
+    if (in_array($page, $allowedPages)) {
+        $redirect = $page;
+    }
+}
+
 header("Location: $redirect");
 exit();

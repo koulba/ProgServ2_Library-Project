@@ -117,9 +117,10 @@ function registerUser($username, $email, $password) {
 function loginUser($username, $password) {
     global $pdo;
 
-    $sql = "SELECT * FROM users WHERE username = :username OR email = :username";
+    $sql = "SELECT * FROM users WHERE username = :username OR email = :email";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':email', $username);
     $stmt->execute();
 
     $user = $stmt->fetch();

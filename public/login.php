@@ -3,7 +3,7 @@ require_once '../src/config/database.php';
 require_once '../src/functions.php';
 require_once __DIR__ . '/../src/i18n/load-translation.php';
 
-// Charger les traductions
+
 $lang = $_COOKIE['lang'] ?? 'fr';
 $translations = loadTranslation($lang);
 
@@ -11,23 +11,21 @@ $translations = loadTranslation($lang);
 $db = new Database();
 $pdo = $db->getPdo();
 
-// Si déjà connecté, rediriger vers l'accueil
+
 if (isLoggedIn()) {
     header('Location: index.php');
     exit();
 }
 
-// Initialiser les variables
 $username = '';
 $errors = [];
 $success = '';
 
-// Soumission du formulaire
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST["username"] ?? '');
     $password = $_POST["password"] ?? '';
 
-    // Validation
     if (empty($username)) {
         $errors[] = $translations['username_required'] . ' / ' . $translations['email_required'];
     }
@@ -36,12 +34,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = $translations['password_required'];
     }
 
-    // Si pas d'erreurs, tenter la connexion
     if (empty($errors)) {
         $result = loginUser($username, $password);
 
         if ($result['success']) {
-            // Rediriger vers l'accueil après connexion réussie
+
             header('Location: index.php?login=success');
             exit();
         } else {

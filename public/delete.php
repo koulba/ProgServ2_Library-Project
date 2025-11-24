@@ -1,4 +1,5 @@
 <?php
+require_once '../src/auth_required.php';
 require_once '../src/config/database.php';
 require_once '../src/functions.php';
 
