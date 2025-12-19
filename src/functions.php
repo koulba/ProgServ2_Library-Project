@@ -66,6 +66,52 @@ function addBook(
 
 }
 
+//récupérer un livre par son ID
+function getBookById($id) {
+    global $pdo;
+    $sql = "SELECT * FROM books WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    return $stmt->fetch();
+}
+
+//modifier un livre
+function updateBook(
+    $id,
+    $name,
+    $author,
+    $releasedate,
+    $isbn,
+    $editor,
+    $saga,
+    $note
+) {
+    global $pdo;
+    $sql = "UPDATE books SET
+        name = :name,
+        author = :author,
+        releasedate = :releasedate,
+        isbn = :isbn,
+        editor = :editor,
+        saga = :saga,
+        note = :note
+        WHERE id = :id";
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':author', $author);
+    $stmt->bindParam(':releasedate', $releasedate);
+    $stmt->bindParam(':isbn', $isbn);
+    $stmt->bindParam(':editor', $editor);
+    $stmt->bindParam(':saga', $saga);
+    $stmt->bindParam(':note', $note);
+
+    return $stmt->execute();
+}
+
 
 // ============================================
 // FONCTIONS D'AUTHENTIFICATION
