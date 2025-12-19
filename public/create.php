@@ -44,10 +44,12 @@ include '../src/partials/header.php';
     <p><a href="index.php">Retour à l'accueil</a></p>
 
     <?php if (!empty($errors)) : ?>
-        <p style="color:red;">Le formulaire contient des erreurs :</p>
-        <ul>
-            <?php foreach ($errors as $e) echo "<li>$e</li>"; ?>
-        </ul>
+        <div class="error-message">
+            <p><strong>Le formulaire contient des erreurs :</strong></p>
+            <ul>
+                <?php foreach ($errors as $e) echo "<li>$e</li>"; ?>
+            </ul>
+        </div>
     <?php endif; ?>
 
     <form action="create.php" method="POST">

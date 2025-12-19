@@ -73,6 +73,12 @@ if (file_exists(MAIL_CONFIGURATION_FILE)) {
     <h1><?= $translations['home_title'] ?></h1>
     <p><?= $translations['home_description'] ?></p>
 
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'access_denied') : ?>
+        <div class="error-message">
+            <p><strong><?= $translations['access_denied'] ?></strong></p>
+        </div>
+    <?php endif; ?>
+
     <h2><?= $translations['books_list'] ?></h2>
 
     <p><a href="create.php"><button><?= $translations['add_book'] ?></button></a></p>

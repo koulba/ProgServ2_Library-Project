@@ -130,6 +130,7 @@ function loginUser($username, $password) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['email'] = $user['email'];
+        $_SESSION['role'] = $user['role'] ?? 'user'; // Stocker le rôle de l'utilisateur
 
         return ['success' => true, 'user' => $user];
     }
@@ -159,8 +160,64 @@ function getCurrentUser() {
         return [
             'id' => $_SESSION['user_id'],
             'username' => $_SESSION['username'],
-            'email' => $_SESSION['email']
+            'email' => $_SESSION['email'],
+            'role' => $_SESSION['role'] ?? 'user'
         ];
     }
     return null;
+}
+
+// Vérifier si l'utilisateur connecté est un administrateur
+function isAdmin() {
+    return isLoggedIn() && isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+}
+
+// Obtenir tous les utilisateurs (admin uniquement)
+function getAllUsers() {
+    global $pdo;
+
+    $sql = "SELECT id, username, email, role, created_at FROM users ORDER BY created_at DESC";
+    $stmt = $pdo->query($sql);
+    return $stmt->fetchAll();
+}
+
+// Mettre à jour le rôle d'un utilisateur (admin uniquement)
+function updateUserRole($userId, $newRole) {
+    global $pdo;
+
+    // Vérifier que le rôle est valide
+    if (!in_array($newRole, ['user', 'admin'])) {
+        return ['success' => false, 'error' => 'invalid_role'];
+    }
+
+    $sql = "UPDATE users SET role = :role WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':role', $newRole);
+    $stmt->bindParam(':id', $userId);
+
+    if ($stmt->execute()) {
+        return ['success' => true];
+    }
+
+    return ['success' => false, 'error' => 'db_error'];
+}
+
+// Supprimer un utilisateur (admin uniquement)
+function deleteUser($userId) {
+    global $pdo;
+
+    // Ne pas permettre la suppression de son propre compte
+    if ($userId == $_SESSION['user_id']) {
+        return ['success' => false, 'error' => 'cannot_delete_self'];
+    }
+
+    $sql = "DELETE FROM users WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $userId);
+
+    if ($stmt->execute()) {
+        return ['success' => true];
+    }
+
+    return ['success' => false, 'error' => 'db_error'];
 }

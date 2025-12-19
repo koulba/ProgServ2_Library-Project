@@ -63,14 +63,14 @@ include '../src/partials/header.php';
     <h1><?= $translations['register_title'] ?></h1>
 
     <?php if (!empty($success)) : ?>
-        <p style="color:green; background: #d4edda; padding: 10px; border-radius: 5px; border: 1px solid #c3e6cb;">
+        <p class="success-message-alt">
             <?= htmlspecialchars($success) ?>
         </p>
         <p><a href="login.php"><button><?= $translations['login_here'] ?></button></a></p>
     <?php endif; ?>
 
     <?php if (!empty($errors)) : ?>
-        <div style="color:#721c24; background: #f8d7da; padding: 10px; border-radius: 5px; border: 1px solid #f5c6cb; margin-bottom: 20px;">
+        <div class="error-message">
             <p><strong><?= $translations['form_errors'] ?></strong></p>
             <ul>
                 <?php foreach ($errors as $error) : ?>
@@ -97,7 +97,7 @@ include '../src/partials/header.php';
         <button type="submit"><?= $translations['register_button'] ?></button>
     </form>
 
-    <p style="margin-top: 20px;">
+    <p class="mt-20">
         <?= $translations['already_have_account'] ?>
         <a href="login.php"><?= $translations['login_here'] ?></a>
     </p>

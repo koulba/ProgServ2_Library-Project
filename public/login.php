@@ -54,7 +54,7 @@ include '../src/partials/header.php';
     <h1><?= $translations['login_title'] ?></h1>
 
     <?php if (!empty($errors)) : ?>
-        <div style="color:#721c24; background: #f8d7da; padding: 10px; border-radius: 5px; border: 1px solid #f5c6cb; margin-bottom: 20px;">
+        <div class="error-message">
             <p><strong><?= $translations['form_errors'] ?></strong></p>
             <ul>
                 <?php foreach ($errors as $error) : ?>
@@ -74,7 +74,7 @@ include '../src/partials/header.php';
         <button type="submit"><?= $translations['login_button'] ?></button>
     </form>
 
-    <p style="margin-top: 20px;">
+    <p class="mt-20">
         <?= $translations['no_account_yet'] ?>
         <a href="register.php"><?= $translations['register_here'] ?></a>
     </p>

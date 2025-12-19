@@ -21,7 +21,11 @@ $translations = loadTranslation($lang);
                 <li><a href="index.php"><?= $lang === 'fr' ? 'Accueil' : 'Home' ?></a></li>
                 <li><a href="create.php"><?= $translations['add_book'] ?></a></li>
                 <?php if (isLoggedIn()): ?>
-                    <li><span style="color: #666;"><?= $translations['welcome_user'] ?>, <?= htmlspecialchars(getCurrentUser()['username']) ?></span></li>
+                    <?php if (isAdmin()): ?>
+                        <li><a href="admin-books.php" class="admin-link"><?= $translations['admin_books'] ?></a></li>
+                        <li><a href="admin-users.php" class="admin-link"><?= $translations['admin_users'] ?></a></li>
+                    <?php endif; ?>
+                    <li><span class="user-info"><?= $translations['welcome_user'] ?>, <?= htmlspecialchars(getCurrentUser()['username']) ?> <?= isAdmin() ? '(' . $translations['admin'] . ')' : '' ?></span></li>
                     <li><a href="logout.php"><?= $translations['logout'] ?></a></li>
                 <?php else: ?>
                     <li><a href="login.php"><?= $translations['login'] ?></a></li>
