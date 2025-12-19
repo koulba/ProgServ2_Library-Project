@@ -66,10 +66,52 @@ function addBook(
 
 }
 
+//modifier un livre
+function updateBook(
+    $id,
+    $name,
+    $author,
+    $releasedate,
+    $isbn,
+    $editor,
+    $saga,
+    $note
+) {
+    global $pdo;
+    $sql = "UPDATE books SET
+        name = :name,
+        author = :author,
+        releasedate = :releasedate,
+        isbn = :isbn,
+        editor = :editor,
+        saga = :saga,
+        note = :note
+        WHERE id = :id";
 
-// ============================================
-// FONCTIONS D'AUTHENTIFICATION
-// ============================================
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':author', $author);
+    $stmt->bindParam(':releasedate', $releasedate);
+    $stmt->bindParam(':isbn', $isbn);
+    $stmt->bindParam(':editor', $editor);
+    $stmt->bindParam(':saga', $saga);
+    $stmt->bindParam(':note', $note);
+
+    return $stmt->execute();
+}
+
+//récupérer un livre par son ID
+function getBookById($id) {
+    global $pdo;
+    $sql = "SELECT * FROM books WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    return $stmt->fetch();
+}
+
 
 // Inscrire un nouvel utilisateur
 function registerUser($username, $email, $password) {
@@ -85,7 +127,6 @@ function registerUser($username, $email, $password) {
         return ['success' => false, 'error' => 'username_exists'];
     }
 
-    // Vérifier si l'email existe déjà
     $sql = "SELECT id FROM users WHERE email = :email";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':email', $email);
@@ -95,7 +136,6 @@ function registerUser($username, $email, $password) {
         return ['success' => false, 'error' => 'email_exists'];
     }
 
-    // Hasher le mot de passe
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // Insérer le nouvel utilisateur
@@ -163,4 +203,10 @@ function getCurrentUser() {
         ];
     }
     return null;
+}
+
+// Envoyer un email de bienvenue (wrapper pour sendWelcomeEmail)
+function sendEmail($email, $username) {
+    require_once __DIR__ . '/utils/mail.php';
+    return \Utils\sendWelcomeEmail($email, $username);
 }

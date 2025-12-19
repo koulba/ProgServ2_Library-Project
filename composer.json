@@ -1,0 +1,14 @@
+{
+    "name": "library-project/app",
+    "description": "Library Project - Gestion de bibliothèque",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "files": [
+            "src/utils/mail.php"
+        ]
+    }
+}
