@@ -2,18 +2,18 @@
 
 Project done at HEIG-VD - ProgServ 2
  
-## 👨‍💻 Contributors:  
+## Contributors:  
 - Liliana Kolmakova
 - Thierry Koulbanis
  
-## 📜 Description  
+## Description  
  
 | Feature               | Description                                                                                     |
 |-----------------------|-------------------------------------------------------------------------------------------------|
 | **Books Manager** | Add and remove a book on a private library. |
 | **Sorting and Filtering** | Sort and filter books by name, writer or genre. |
 
-## 📌 Cahier des charges
+## Cahier des charges
 
 <details>
  <summary>Cahier des charges</summary>
@@ -47,14 +47,7 @@ Deux rôles d’utilisateur seront prévus :
 - Ajouter un livre avec ses informations : titre, auteur, genre, année, ISBN (optionnel)
 - Modifier ou supprimer un livre existant
 - Afficher la liste de ses livres
-- Rechercher un livre par mot-clé
-- Trier les livres par titre, auteur, genre ou année
-  
-**Suivi de lecture**
-  
-- Marquer un livre comme à lire, en cours ou lu
-- Donner une note (de 1 à 5 étoiles)
-- Laisser un commentaire personnel sur la lecture
+- Donner une note de 1 à 10
 
 ## 4. Fonctionnalités optionnelles (si le temps le permet)
 - Ajouter une image de couverture personnalisée
@@ -71,7 +64,7 @@ Deux rôles d’utilisateur seront prévus :
 | Privée     | Mes livres        | Liste complète avec recherche et tri                                       |
 | Privée     | Ajouter un livre  | Formulaire d’ajout de nouveau livre                                        |
 | Privée     | Détails du livre  | Informations complètes, note et commentaire, options de modification       |
-| Privée     | Administration    | Espace réservé à l’administrateur pour gérer les utilisateurs              |
+| Privée     | Administration    | Espace réservé à l’administrateur pour gérer les utilisateurs et les livres  |
 
 ## 6. Modèle de données
 
@@ -99,16 +92,6 @@ Deux rôles d’utilisateur seront prévus :
 | couverture_url  | Image de couverture (facultative)          |
 | utilisateur_id  | Lien vers le propriétaire du livre          |
 
-**Table : lectures**
-
-| Champ         | Description                                      |
-|--------------|--------------------------------------------------|
-| id           | Identifiant unique                               |
-| utilisateur_id | Lien vers l’utilisateur                         |
-| livre_id     | Lien vers le livre                                |
-| statut       | “à lire”, “en cours”, ou “lu”                     |
-| note         | Note sur 5                                       |
-| commentaire  | Texte libre                                      |
 
 ## 7. Aspects techniques
 
@@ -142,4 +125,19 @@ Libs Project est une application web qui aide à gérer sa bibliothèque personn
 Elle propose une interface simple : authentification, gestion des rôles, sécurité, sessions et base de données. Le but est de créer un site fonctionnel et facile à utiliser, tout en mettant en pratique ce qu’on a appris en cours. Ce projet permet de voir concrètement comment fonctionne une application web complète, depuis le développement jusqu’au déploiement.
 </details>
 
-## 
+## 10. Notes fin de projet
+Certaines fonctionnalités n'ont pas pu être mises en place
+- Suivi de lecture
+- API pour le référencement des livres
+
+# Retour d'expérience
+Nous avons finalement décidé de créer un compte "admin" plutôt qu'un compte "auteur" afin de pouvoir éventuellement exploiter les données récupérées (notes, genre, nombre de livres, ...). Dans un cadre réel un rôle auteur aurait nécessité un contrôle approfondi de l'identité de l'auteur. 
+
+Globalement le projet s'est bien déroulé, nous avons pu nous répartir les tâches selon les compétences et préférences de chacun.e. L'IA (Chat GPT et Claude) ont été utilisés parfois à des fins de contrôle, debbuging et compréhension. 
+
+# Difficultés rencontrées
+La plus grande difficulté a été la mise en place de l'envoi d'e-mail. Nous avons été bloqués pendant un moment à cause du mot de passe généré par Infomaniak (le symbole $ posait problème dans les mdp générés).
+Nous avous pu également constater des difficultés à collaborer sur GitHub (conflits lors des push, ...). On s'est également un peu mélangé les pinceaux entre les essais en local et le distant.
+
+Au final, tout va bien !
+
