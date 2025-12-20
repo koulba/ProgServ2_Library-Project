@@ -1,0 +1,6 @@
+src/config/database.php
+src/config/mail.ini
+.env
+*.log
+.DS_Store
+Thumbs.db

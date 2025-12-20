@@ -7,6 +7,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Initialiser la connexion PDO globale
+$db = new Database();
+$pdo = $db->getPdo();
+
 //supprimer un livre (seulement si l'utilisateur en est le propriétaire)
 function removeBook($id, $userId = null) {
     global $pdo;
