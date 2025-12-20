@@ -1,8 +1,8 @@
-# ProgServ2_Library-Project
-
+# Libs Project 
+libsproject.ch
 Project done at HEIG-VD - ProgServ 2
  
-## Contributors:  
+## Contributeurs:  
 - Liliana Kolmakova
 - Thierry Koulbanis
  
