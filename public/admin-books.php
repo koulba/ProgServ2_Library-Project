@@ -11,8 +11,13 @@ $translations = loadTranslation($lang);
 $db = new Database();
 $pdo = $db->getPdo();
 
-// Récupère tous les livres avec des informations détaillées
-$stmt = $pdo->query("SELECT * FROM books ORDER BY id DESC");
+// Récupère tous les livres avec des informations détaillées (incluant le nom d'utilisateur)
+$stmt = $pdo->query("
+    SELECT books.*, users.username
+    FROM books
+    LEFT JOIN users ON books.user_id = users.id
+    ORDER BY books.id DESC
+");
 $books = $stmt->fetchAll();
 
 include '../src/partials/header.php';
@@ -40,6 +45,7 @@ include '../src/partials/header.php';
                     <th>ID</th>
                     <th><?= $translations['name'] ?></th>
                     <th><?= $translations['author'] ?></th>
+                    <th><?= $lang === 'fr' ? 'Propriétaire' : 'Owner' ?></th>
                     <th><?= $translations['publication_date'] ?></th>
                     <th><?= $translations['isbn'] ?></th>
                     <th><?= $translations['editor'] ?></th>
@@ -54,6 +60,7 @@ include '../src/partials/header.php';
                         <td><?= htmlspecialchars($book['id']) ?></td>
                         <td><strong><?= htmlspecialchars($book['name']) ?></strong></td>
                         <td><?= htmlspecialchars($book['author']) ?></td>
+                        <td><?= htmlspecialchars($book['username'] ?? 'N/A') ?></td>
                         <td><?= htmlspecialchars($book['releasedate']) ?></td>
                         <td><?= htmlspecialchars($book['isbn']) ?></td>
                         <td><?= htmlspecialchars($book['editor']) ?></td>

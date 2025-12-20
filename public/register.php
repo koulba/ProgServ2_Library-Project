@@ -2,6 +2,7 @@
 require_once '../src/config/database.php';
 require_once '../src/functions.php';
 require_once __DIR__ . '/../src/i18n/load-translation.php';
+require_once __DIR__ . '/../src/utils/mail.php';
 
 
 $lang = $_COOKIE['lang'] ?? 'fr';
@@ -42,13 +43,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = $translations['passwords_not_match'];
     }
 
-
     if (empty($errors)) {
         $result = registerUser($username, $email, $password);
-
+ 
         if ($result['success']) {
-            $success = $translations['registration_success'];
-
+            // Envoyer l'email de confirmation
+            $emailSent = \Utils\sendWelcomeEmail($email, $username);
+ 
+            if ($emailSent) {
+                $success = $translations['registration_success'];
+            } else {
+                $success = $translations['registration_success_no_email'] ?? $translations['registration_success'];
+            }
+ 
             $username = $email = '';
         } else {
             $errors[] = $translations[$result['error']] ?? $translations['db_error'];
