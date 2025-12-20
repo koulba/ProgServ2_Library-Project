@@ -7,13 +7,23 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-//supprimer un livre
-function removeBook($id) {
-
+//supprimer un livre (seulement si l'utilisateur en est le propriétaire)
+function removeBook($id, $userId = null) {
     global $pdo;
-    $sql = "DELETE FROM books WHERE id = :id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':id', $id);
+
+    // Si userId est fourni, vérifier que l'utilisateur est propriétaire du livre
+    if ($userId !== null) {
+        $sql = "DELETE FROM books WHERE id = :id AND user_id = :user_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':user_id', $userId);
+    } else {
+        // Pour la compatibilité (admin peut tout supprimer)
+        $sql = "DELETE FROM books WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $id);
+    }
+
     return $stmt->execute();
 }
 
@@ -26,7 +36,8 @@ function addBook(
     $isbn,
     $editor,
     $saga,
-    $note
+    $note,
+    $userId
 ) {
 
     global $pdo;
@@ -37,7 +48,8 @@ function addBook(
         isbn,
         editor,
         saga,
-        note
+        note,
+        user_id
     ) VALUES (
         :name,
         :author,
@@ -45,7 +57,8 @@ function addBook(
         :isbn,
         :editor,
         :saga,
-        :note
+        :note,
+        :user_id
     )";
 
     $stmt = $pdo->prepare($sql);
@@ -57,6 +70,7 @@ function addBook(
     $stmt->bindParam(':editor', $editor);
     $stmt->bindParam(':saga', $saga);
     $stmt->bindParam(':note', $note);
+    $stmt->bindParam(':user_id', $userId);
 
     $stmt->execute();
 
@@ -67,13 +81,34 @@ function addBook(
 }
 
 //récupérer un livre par son ID
-function getBookById($id) {
+function getBookById($id, $userId = null) {
     global $pdo;
-    $sql = "SELECT * FROM books WHERE id = :id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':id', $id);
+
+    // Si userId est fourni, vérifier que l'utilisateur est propriétaire
+    if ($userId !== null) {
+        $sql = "SELECT * FROM books WHERE id = :id AND user_id = :user_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':user_id', $userId);
+    } else {
+        // Pour la compatibilité (admin peut tout voir)
+        $sql = "SELECT * FROM books WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $id);
+    }
+
     $stmt->execute();
     return $stmt->fetch();
+}
+
+//récupérer tous les livres d'un utilisateur
+function getBooksByUserId($userId) {
+    global $pdo;
+    $sql = "SELECT * FROM books WHERE user_id = :user_id ORDER BY id DESC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':user_id', $userId);
+    $stmt->execute();
+    return $stmt->fetchAll();
 }
 
 //modifier un livre
@@ -85,20 +120,39 @@ function updateBook(
     $isbn,
     $editor,
     $saga,
-    $note
+    $note,
+    $userId = null
 ) {
     global $pdo;
-    $sql = "UPDATE books SET
-        name = :name,
-        author = :author,
-        releasedate = :releasedate,
-        isbn = :isbn,
-        editor = :editor,
-        saga = :saga,
-        note = :note
-        WHERE id = :id";
 
-    $stmt = $pdo->prepare($sql);
+    // Si userId est fourni, vérifier que l'utilisateur est propriétaire
+    if ($userId !== null) {
+        $sql = "UPDATE books SET
+            name = :name,
+            author = :author,
+            releasedate = :releasedate,
+            isbn = :isbn,
+            editor = :editor,
+            saga = :saga,
+            note = :note
+            WHERE id = :id AND user_id = :user_id";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':user_id', $userId);
+    } else {
+        // Pour la compatibilité (admin peut tout modifier)
+        $sql = "UPDATE books SET
+            name = :name,
+            author = :author,
+            releasedate = :releasedate,
+            isbn = :isbn,
+            editor = :editor,
+            saga = :saga,
+            note = :note
+            WHERE id = :id";
+
+        $stmt = $pdo->prepare($sql);
+    }
 
     $stmt->bindParam(':id', $id);
     $stmt->bindParam(':name', $name);
@@ -267,3 +321,9 @@ function deleteUser($userId) {
 
     return ['success' => false, 'error' => 'db_error'];
 }
+
+function sendEmail($email, $username) {
+    require_once __DIR__ . '/utils/mail.php';
+    return \Utils\sendWelcomeEmail($email, $username);
+}
+ 

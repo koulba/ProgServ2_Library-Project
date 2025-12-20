@@ -19,12 +19,17 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 }
 
 $bookId = $_GET['id'];
+$userId = $_SESSION['user_id'];
 
-// Récupérer le livre
-$book = getBookById($bookId);
+// Récupérer le livre (vérifier que l'utilisateur en est le propriétaire, sauf admin)
+if (isAdmin()) {
+    $book = getBookById($bookId);
+} else {
+    $book = getBookById($bookId, $userId);
+}
 
 if (!$book) {
-    header('Location: admin-books.php');
+    header('Location: index.php');
     exit();
 }
 
@@ -44,11 +49,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$author) $errors[] = $translations['book_author_required'];
 
     if (empty($errors)) {
-        // Mettre à jour le livre dans la base
-        if (updateBook($bookId, $name, $author, $releasedate, $isbn, $editor, $saga, $note)) {
+        // Mettre à jour le livre dans la base (vérifier la propriété, sauf admin)
+        $updateSuccess = false;
+        if (isAdmin()) {
+            $updateSuccess = updateBook($bookId, $name, $author, $releasedate, $isbn, $editor, $saga, $note);
+        } else {
+            $updateSuccess = updateBook($bookId, $name, $author, $releasedate, $isbn, $editor, $saga, $note, $userId);
+        }
+
+        if ($updateSuccess) {
             $success = $lang === 'fr' ? "Le livre a bien été modifié !" : "The book has been successfully updated!";
             // Recharger les données du livre
-            $book = getBookById($bookId);
+            if (isAdmin()) {
+                $book = getBookById($bookId);
+            } else {
+                $book = getBookById($bookId, $userId);
+            }
         } else {
             $errors[] = $lang === 'fr' ? "Erreur lors de la modification du livre." : "Error updating the book.";
         }

@@ -3,10 +3,14 @@ require_once '../src/auth_required.php';
 require_once '../src/config/database.php';
 require_once '../src/functions.php';
 
-
 // Connexion à la DB
 $db = new Database();
 $pdo = $db->getPdo();
+
+// Charger les traductions
+require_once __DIR__ . '/../src/i18n/load-translation.php';
+$lang = $_COOKIE['lang'] ?? 'fr';
+$translations = loadTranslation($lang);
 
 // Soumission du formulaire
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -18,22 +22,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $saga = $_POST["saga"] ?? null;
     $note = $_POST["note"] ?? null;
 
-    require_once __DIR__ . '/../src/i18n/load-translation.php';
-    $lang = $_COOKIE['lang'] ?? 'fr';
-    $translations = loadTranslation($lang);
-
     // validation
     $errors = [];
     if (!$name) $errors[] = $translations['book_name_required'];
     if (!$author) $errors[] = $translations['book_author_required'];
 
     if (empty($errors)) {
-        // add le livre dans la base
-        addBook($name, $author, $releasedate, $isbn, $editor, $saga, $note);
-    $success = "Votre livre a bien été ajouté !";
-    // réinitialiser
-    $name = $author = $releasedate = $isbn = $editor = $saga = $note = '';
-}
+        // add le livre dans la base avec l'ID de l'utilisateur connecté
+        $userId = $_SESSION['user_id'];
+        addBook($name, $author, $releasedate, $isbn, $editor, $saga, $note, $userId);
+        $success = "Votre livre a bien été ajouté !";
+        // réinitialiser
+        $name = $author = $releasedate = $isbn = $editor = $saga = $note = '';
+    }
 }
 
 include '../src/partials/header.php';
@@ -49,6 +50,12 @@ include '../src/partials/header.php';
             <ul>
                 <?php foreach ($errors as $e) echo "<li>$e</li>"; ?>
             </ul>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($success)) : ?>
+        <div class="success-message">
+            <p><?= $success ?></p>
         </div>
     <?php endif; ?>
 
